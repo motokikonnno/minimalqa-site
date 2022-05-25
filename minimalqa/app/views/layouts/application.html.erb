@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minimalqa</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_packs_with_chunks_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_packs_with_chunks_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+<body>
+<div class="container">
+  <div class="row">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <%= image_tag 'logo.png', class: "navbar-brand bg-dark col-xs-2", size: '60x60' %>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item col-xs-1">
+          <%= link_to("ホーム", root_path, {class: "nav-link bg-dark"}) %>
+        </li>
+        <li class="nav-item col-xs-1">
+          <%= link_to("みんなの質問", questions_path, {class: "nav-link bg-dark"}) %>
+        </li>
+      <% if logged_in? %>
+        <li class="nav-item col-xs-1">
+          <%= link_to("マイページ", users_path, {class: "nav-link bg-dark"}) %>
+        </li>
+        <li class="nav-item col-xs-1">
+          <%= link_to("お気に入り", user_path(@current_user.id), {class: "nav-link bg-dark"}) %>
+        </li>
+        <li class="nav-item col-xs-1">
+          <%= link_to("ログアウト", session_path(current_user.id), class: "nav-link bg-dark", method: :delete) %>
+        </li>
+        <li class="nav-item col-xs-1">
+          <%= link_to("質問する!", new_question_path, {class: "btn btn-success text-light"}) %>
+        </li>
+      <% end %>
+      </ul>
+      <%= search_form_for @q, url: questions_path do |f| %>
+      <div class="d-flex">
+        <%= f.search_field :title_or_body_cont, class: "form-control me-2 col-xs-2", placeholder: "検索" %>
+        <%= f.submit "検索", class: "btn btn-success col-xs-2" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</nav>
+</div>
+</div>
+    <%= yield %>
+  <footer class="fixed-bottom" class="bg-dark text-center text-lg-start">
+  <div class="text-center p-3 text-white-50" style="background-color: rgba(0, 0, 0, 1);">
+    © 2022 ミニマルQA
+  </div>
+</footer>
+</body>
+</html>

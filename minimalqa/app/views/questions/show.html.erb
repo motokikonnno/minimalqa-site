@@ -1,0 +1,114 @@
+ <main class="mb-5">
+  <div class="mt-5 mb-5">
+  </div>
+<div class="pt-5 pb-5 text-center">
+  <h1><%= @question.user.name %>さんの質問</h1>
+</div>
+<div class="card mb-3 w-50 mx-auto">
+  <div class="card-body">
+    <h3 class="card-title">タイトル : <%= @question.title %></h3>
+    <h5 class="mt-4">内容 :</h5>
+    <h4 class="card-text"><%= @question.body %></h4>
+    <div class="card-text mt-4"><small class="text-muted">
+      <%= time_ago_in_words(@question.created_at) %>前</small>
+    </div>
+    <div class="card-text text-end" id="favorite_<%= @question.id %>">
+      <%= render partial: 'favorites/favorite', locals: {question: @question} %>
+    </div>
+  </div>
+</div>
+
+<% if logged_in? %>
+<% if @question.user_id == current_user.id %>
+  <div class="text-center">
+    <%= link_to "編集する", edit_question_path(@question), class: "btn btn-success text-white" %>
+    <%= link_to "削除する", @question, class: "btn btn-danger text-white", method: :delete %>
+  </div>
+<% end %>
+<% end %>
+
+<% if @question.answers.any? %>
+<div class="pt-5 pb-5 text-center">
+  <h1>回答一覧</h1>
+</div>
+<div class="card mb-3 w-50 mx-auto">
+<% @question.answers.each do |answer| %>
+  <div class="card-body">
+    <div class="card-title mb-4 btn btn-secondary">
+      <%= answer.user.name %>さんの回答
+    </div>
+    <% if logged_in? %>
+    <% if @question.bestanswer_id == answer.id %>
+      <span class="badge bg-primary">ベストアンサー</span>
+    <% end %>
+    <% end %>
+    <h5>回答 :</h5>
+    <%= auto_link(simple_format(h(answer.body), target: :_blank, rel: "noopener noreferrer", class: "card-text h4")) %>
+    <div class="card-text mt-4"><small class="text-muted">
+      <%= time_ago_in_words(answer.created_at) %>前</small>
+    </div>
+    <% answer.reactions.each do |reaction| %>
+      <div class="card-title mt-5 mb-4 btn btn-secondary">
+        <%= reaction.user.name %>さんのリアクション
+      </div>
+      <h5>内容 :</h5>
+      <h4 class="card-text"><%= auto_link(simple_format(h(reaction.body), target: :_blank, rel: "noopener noreferrer", class: "card-text h4")) %></h4>
+      <div class="card-text mt-4"><small class="text-muted">
+        <%= time_ago_in_words(reaction.created_at) %>前</small>
+      </div>
+    <% end %>
+    <% if logged_in? %>
+    <% if @question.bestanswer_id == nil %>
+      <div class="card-text text-end">
+        <%= link_to 'リアクションする', new_answer_reaction_path(answer.id), class: "btn btn-success text-white" %>
+      </div>
+    <% end %>
+    <% end %>
+    <% if logged_in? %>
+    <% if @question.user_id == current_user.id %>
+    <%= form_with(model: @question, local: true, data: {confirm: "ベストアンサーにします、修正はできませんがよろしいですか？"}) do |f| %>
+      <%= f.hidden_field :bestanswer_id, value: answer.id %>
+      <div class="card-text text-end">
+        <%= f.submit 'ベストアンサー', disabled: @question.bestanswer_id.present?, class: "btn btn-danger mt-4" %>
+      </div>
+    <% end %>
+    <% end %>
+    <% end %>
+    </div>
+    <% end %>
+  </div>
+    <% else %>
+    <div class="pt-5 pb-5 text-center">
+      <h1>回答がありません</h1>
+    </div>
+    <% end %>
+
+  <% if logged_in? %>
+  <% if @question.user.id != current_user.id && @question.bestanswer_id == nil %>
+    <div class="text-center pt-5">
+      <h1 class="mb-5 fw-normal mt-5">回答する</h1>
+    <div class="card mx-auto text-center w-50">
+      <div class="card-body">
+    <%= form_with model: [@question, @question.answers.build] do |f| %>
+      <div class="mb-3">
+        <%= f.label :body, "内容（300字以内）", class: "form-label" %>
+        <%= f.text_area :body, class: "form-control form-control-lg", rows: "6" %>
+      </div>
+      <%= f.hidden_field :question_id, value: @question.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
+      <div class="d-grid gap-2 col-lg mx-auto mb-3">
+        <%= f.submit "回答", disabled: @question.bestanswer_id.present?, class: "btn btn-success" %>
+      </div>
+    <% end %>
+  <% end %>
+  <% end %>
+      </div>
+  </div>
+  </div>
+  <div class="pb-5 pt-5 text-center">
+    <%= link_to "質問一覧に戻る", questions_path, class: "btn btn-outline-success text-dark" %>
+  </div>
+
+  </main>
+
+

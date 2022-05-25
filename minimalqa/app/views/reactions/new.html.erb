@@ -1,0 +1,14 @@
+<div class="text-center pt-5">
+    <h1 class="h3 mb-5 fw-normal mt-5">コメント作成</h1>
+    <% if @reaction.errors.any? %>
+    <div class="text-danger mb-4">
+        ※ 空、もしくは指定の文字数を超えています。
+    </div>
+    <% end %>
+        <div class="card mx-auto text-center w-50 border-dark">
+            <div class="card-body">
+                <%= render 'form', reaction: @reaction %>
+            </div>
+        </div>
+    <%= link_to "詳細画面に戻る", question_path(@reaction.answer.question.id), class: "btn btn-outline-success text-dark mt-5" %>
+</div>

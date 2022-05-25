@@ -1,0 +1,17 @@
+<%= image_tag 'home.png', class: "d-block w-100 opacity-50 col-xs-12" %>
+<div class="title fixed-top text-dark text-center">
+    <h1>ミニマルQAとは</h1>
+    <p>-------------------------------------------------------</p>
+    <h3 class="mt-5 mb-5">ミニマリストになりたいあなたを支えるQ&Aサイトです</h3>
+    <% if logged_in? %>
+    <% else %>
+<div class="container">
+    <div class="row">
+    <div class="d-grid gap-2 col-3 mx-auto">
+        <%= link_to("新規登録", new_user_path, {class: "btn btn-success btn-lg text-light mb-5"}) %>
+        <%= link_to("ログイン", new_session_path, {class: "btn btn-success btn-lg text-light"}) %>
+    </div>
+    </div>
+</div>
+    <% end %>
+</div>

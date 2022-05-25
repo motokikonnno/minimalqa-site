@@ -1,0 +1,17 @@
+<div class="text-center pt-5">
+<h1 class="h3 mb-5 fw-normal mt-5">質問作成</h1>
+
+<% if @question.errors.any? %>
+<div class="text-danger mb-4">
+    ※ 空、もしくは指定の文字数を超えています。
+</div>
+<% end %>
+
+<div class="card mx-auto text-center w-50">
+    <div class="card-body">
+
+<%= render 'form', question: @question %>
+
+    </div>
+</div>
+</div>

@@ -1,0 +1,27 @@
+<body class="text-center pt-5">
+<main class="form-signin">
+      <h1 class="h3 mb-5 fw-normal mt-5">ログイン</h1>
+      <div class="text-danger mb-4">
+        <%= alert %>
+      </div>
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+      <%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
+      <div class="form-floating">
+        <%= f.text_field :name, class: "form-control", placeholder: "名前" %>
+        <%= f.label :name, "名前", class: "text-black-50", for: "floatingInput" %>
+      </div>
+      <div class="form-floating">
+        <%= f.password_field :password, class: "form-control", placeholder: "パスワード" %>
+        <%= f.label :password, "パスワード", class: "text-black-50", for: "floatingInput" %>
+      </div>
+      <%= f.submit "ログイン", class: "w-100 btn btn-lg btn-success mt-5" %>
+      <% end %>
+        </div>
+      </div>
+</main>
+<div class="gap-2 col-3 mx-auto mt-5">
+もしくは
+<%= link_to("新規登録", new_user_path, {class: "btn btn-success text-light"}) %>
+</div>
+</body>

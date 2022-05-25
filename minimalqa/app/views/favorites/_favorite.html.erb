@@ -1,0 +1,11 @@
+<% if Favorite.exists?(user: current_user, question_id: @question.id) %>
+    <%= link_to question_favorites_path(@question), method: :delete, remote: true do %>
+        <i class="bi bi-bookmark-heart"></i>
+    <% end %>
+    <%= @question.favorites.length %>
+<% else %>
+    <%= link_to question_favorites_path(@question), method: :post, remote: true do %>
+        <i class="bi bi-bookmark-heart-fill"></i>
+    <% end %>
+    <%= @question.favorites.length %>
+<% end %>
