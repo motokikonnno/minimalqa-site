@@ -16,7 +16,7 @@ jobs:
   test:
     docker:
       - image: cimg/ruby:2.7.6
-      - image: cimg/postgres:9.3
+      - image: cimg/postgres:9.6.23
         environment:
           POSTGRES_PASSWORD: password
           POSTGRES_DATABASE: app_test
