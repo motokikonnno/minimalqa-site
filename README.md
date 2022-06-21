@@ -11,6 +11,7 @@ URL：(https://minimalqa-site.herokuapp.com)
 * Ruby on Rails 6.1
 * ruby 2.7.5
 * Postgresql　9.3
+* RSpec
  
 # 機能一覧
  
